@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LightValue, LightGroup, LightOptional, LightValueKey } from '../../services/types/LightValue';
+import { LightGroup, LightOptional, LightValueKey } from '../../services/types/LightValue';
 
 import { ColorEvent } from 'ngx-color';
 import { ActionsService, CueLoadAction, CueSelectAction, LightSelectAction, LightValueSetAction } from 'src/app/services/actions/actions.service';
-import { cues } from 'src/app/services/cues';
 import { patch } from 'src/app/services/patch';
 
 @Component({

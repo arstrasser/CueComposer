@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ActionsService, CueAddAction, CueDeleteAction, CueLoadAction, CueSelectAction, CueUpdateAction } from 'src/app/services/actions/actions.service';
 import { cues } from '../../services/cues';

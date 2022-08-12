@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActionsService, CueAddAction, CueDeleteAction, CueLoadAction, CueSelectAction } from 'src/app/services/actions/actions.service';
 import { cues } from '../../services/cues';
 

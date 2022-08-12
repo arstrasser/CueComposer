@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { patch } from '../patch';
 import { cues } from '../cues'
-import { Channel, LightGroup, LightValue, LightValueKey } from '../types/LightValue';
+import { Channel, LightValue, LightValueKey } from '../types/LightValue';
 import { Cue } from '../types/show';
 
 export abstract class Action {

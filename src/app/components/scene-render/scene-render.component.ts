@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActionsService, CueLoadAction, CueSelectAction, LightValueSetAction } from 'src/app/services/actions/actions.service';
 import { LightValueStoreMode, patch } from 'src/app/services/patch';
 import * as THREE from 'three';

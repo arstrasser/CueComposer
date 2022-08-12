@@ -9,5 +9,4 @@ class Preferences {
   }
 }
 
-
 export const preferences = new Preferences()
