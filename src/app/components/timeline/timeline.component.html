@@ -1,0 +1,33 @@
+<div class="timeline">
+  <div class="timeline-buttons">
+    <div class="timeline-row">
+      <div class="timeline-time">
+        <span>{{this.currentTime}} / {{this.currentDuration}}</span>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <button mat-icon-button color="primary" (click)="wavesurfer?.playPause()">
+        <mat-icon aria-hidden="false" aria-label="pause" fontIcon="pause" *ngIf="isPlaying()"></mat-icon>
+        <mat-icon aria-hidden="false" aria-label="play" fontIcon="play_arrow" *ngIf="!isPlaying()"></mat-icon>
+      </button>
+    </div>
+    <div class="timeline-row">
+      <button mat-icon-button color="primary" (click)="zoomIn()">
+        <mat-icon aria-hidden="false" aria-label="zoom_in" fontIcon="zoom_in"></mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="zoomOut()">
+        <mat-icon aria-hidden="false" aria-label="zoom_out" fontIcon="zoom_out"></mat-icon>
+      </button>
+    </div>
+    <div class="timeline-row">
+      <button mat-icon-button color="primary" (click)="createCue()">
+        <mat-icon aria-hidden="false" aria-label="create cue" fontIcon="add"></mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="deleteCue()">
+        <mat-icon aria-hidden="false" aria-label="delete cue" fontIcon="delete"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="timeline-wave" #container></div>
+  <div class="timeline-popup" #popup>POPUP</div>
+</div>

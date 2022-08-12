@@ -1,0 +1,67 @@
+<mat-toolbar>
+  <!-- <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+  <button mat-button (click)="sidenav.toggle()" [disabled]="show === null">
+    File
+  </button>
+
+  <img src="/assets/icons/logo256.png" class="logo"/>
+
+  <span> Cue Composer </span>
+
+  <span class="toolbar-spacer"></span>
+
+  <button mat-icon-button (click)="actions.undo()" [disabled]="!actions.canUndo()">
+    <mat-icon>undo</mat-icon>
+  </button>
+  <button mat-icon-button (click)="actions.redo()" [disabled]="!actions.canRedo()">
+    <mat-icon>redo</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-drawer-container class="main-container">
+  <mat-drawer #sidenav mode="over" position="start" class="file-drawer" [disableClose]="show === null">
+    <mat-action-list class="file-menu">
+      <mat-list-item (click)="sidenav.close(); newShow();">
+        <mat-icon mat-list-icon>note_add</mat-icon>
+        <div mat-line>New</div>
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.close(); save()">
+        <mat-icon mat-list-icon>save</mat-icon>
+        <div mat-line>Save</div>
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.close(); openShow()">
+        <mat-icon mat-list-icon>folder_open</mat-icon>
+        <div mat-line>Open</div>
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.close(); showImport.click()">
+        <mat-icon mat-list-icon>cloud_upload</mat-icon>
+        <div mat-line>Import</div>
+        <input hidden (change)="importShow($event)" #showImport type="file" accept=".cuecomposer">
+      </mat-list-item>
+      <mat-list-item (click)="sidenav.close(); exportShow()">
+        <mat-icon mat-list-icon>cloud_download</mat-icon>
+        <div mat-line>Export</div>
+      </mat-list-item>
+    </mat-action-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <scene-render style="width: 100%; aspect-ratio: 2"></scene-render>
+    <app-timeline></app-timeline>
+  </mat-drawer-content>
+
+  <mat-drawer mode="side" opened position="end" disableClose>
+    <div #infoResizable class="info-resizable resizable-container" mwlResizable [enableGhostResize]="true" (resizeEnd)="onInfoResizeEnd($event)">
+      <div class="resize-handle-left" mwlResizeHandle [resizeEdges]="{ left: true }"></div>
+      <div #listResizable class="list-resizable resizable-container" mwlResizable [enableGhostResize]="true" (resizeEnd)="onListResizeEnd($event)">
+        <app-cue-list></app-cue-list>
+        <div class="resize-handle-bottom" mwlResizeHandle [resizeEdges]="{ bottom: true }"></div>
+      </div>
+      <app-cue-viewer></app-cue-viewer>
+    </div>
+  </mat-drawer>
+
+</mat-drawer-container>
+
+

@@ -1,0 +1,27 @@
+section {
+  display: table;
+  padding: 0 10px;
+}
+
+.row-label {
+  display: table-cell;
+  min-width: 75px;
+}
+
+.row-clear {
+  display: table-cell;
+}
+
+.row-contents {
+  display: table-cell;
+  padding-left: 10px;
+  width: 100%
+}
+
+.row-contents mat-slider {
+  width: 100%;
+}
+
+.row-label.set {
+  font-weight: bold;
+}

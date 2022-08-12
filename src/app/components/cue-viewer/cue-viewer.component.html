@@ -1,0 +1,21 @@
+<div *ngIf="selectedCueId === null">
+  <p class="no-selection">No cue selected</p>
+</div>
+<!-- <mat-form-field></mat-form-field> -->
+
+<!-- <app-lighting-controls *ngIf="cues.getSelectedCueId() !== null"></app-lighting-controls> -->
+<mat-tab-group mat-align-tabs="start" *ngIf="selectedCueId !== null">
+  <!-- <mat-tab label="Properties">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="cues.getSelectedCue()!.title" (change)="change()">
+    </mat-form-field>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="cues.getSelectedCue()!.description" (change)="change()"></textarea>
+    </mat-form-field>
+  </mat-tab> -->
+  <mat-tab label="Lighting">
+    <app-lighting-controls></app-lighting-controls>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>New Show</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <br/>
+  <mat-form-field appearance="fill">
+    <mat-label>Song</mat-label>
+    <input matInput [(ngModel)]="songName" disabled>
+  </mat-form-field>
+  <br/>
+  <div>
+    <button mat-button (click)="fileInput.click()">Choose Song</button>
+    <input hidden (change)="fileSelected($event)" #fileInput type="file" accept="audio/*">
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="create()" cdkFocusInitial [disabled]="song === null">Ok</button>
+</div>

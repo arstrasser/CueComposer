@@ -1,0 +1,25 @@
+.timeline {
+  display: flex;
+}
+
+.timeline-buttons {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.timeline-wave {
+  flex: 1 1 auto;
+}
+
+.timeline-popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: none;
+}

@@ -1,0 +1,42 @@
+.resizable-container {
+  position: relative;
+  margin: auto;
+}
+
+.info-resizable {
+  background: #fafafa;
+  border-left: solid 1px #121621;
+  height: 100%;
+}
+
+.list-resizable {
+  border-bottom: solid 1px #121621;
+}
+
+.main-container {
+  height: calc(100vh - 64px);
+}
+
+mat-drawer {
+  min-width: 200px;
+}
+
+.logo {
+  height: 60%;
+  margin-right: 10px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+
+.open-show-overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  text-align: center;
+  color: white;
+}

@@ -1,0 +1,60 @@
+<section>
+  <div class="row-label">Groups</div>
+  <div class="row-contents">
+    <button
+      mat-button
+      *ngFor="let group of groups"
+      (click)="toggleGroupSelect(group)"
+      [color]="groupIsSelected(group)?'primary':undefined">
+      {{group.name}}
+    </button>
+  </div>
+</section>
+
+<section>
+  <div class="row-label" [ngClass]="valueIsSet(brightness)?'set':'unset'">Brightness</div>
+  <div class="row-clear">
+    <button mat-icon-button color="primary" (click)="removeAttribute('brightness')" [disabled]="!valueIsSet(brightness)">
+      <mat-icon aria-hidden="false" aria-label="clear" fontIcon="close"></mat-icon>
+    </button>
+  </div>
+  <div class="row-contents">
+    <mat-slider min="0" max="1" step="0.01" (change)="update('brightness', $event.value)" [(ngModel)]="brightness"></mat-slider>
+  </div>
+</section>
+
+<section>
+  <div class="row-label" [ngClass]="valueIsSet(color)?'set':'unset'">Color</div>
+  <div class="row-clear">
+    <button mat-icon-button color="primary" (click)="removeAttribute('color')" [disabled]="!valueIsSet(color)">
+      <mat-icon aria-hidden="false" aria-label="clear" fontIcon="close"></mat-icon>
+    </button>
+  </div>
+  <div class="row-contents">
+    <color-twitter triangle="hide" (onChangeComplete)="colorChange($event)"></color-twitter>
+  </div>
+</section>
+
+<section>
+  <div class="row-label" [ngClass]="valueIsSet(pan)?'set':'unset'">Pan</div>
+  <div class="row-clear">
+    <button mat-icon-button color="primary" (click)="removeAttribute('pan')" [disabled]="!valueIsSet(pan)">
+      <mat-icon aria-hidden="false" aria-label="clear" fontIcon="close"></mat-icon>
+    </button>
+  </div>
+  <div class="row-contents">
+    <mat-slider [min]="-180" max="180" step="0.01" (change)="update('pan', $event.value)" [(ngModel)]="pan"></mat-slider>
+  </div>
+</section>
+
+<section>
+  <div class="row-label" [ngClass]="valueIsSet(tilt)?'set':'unset'">Tilt</div>
+  <div class="row-clear">
+    <button mat-icon-button color="primary" (click)="removeAttribute('tilt')" [disabled]="!valueIsSet(tilt)">
+      <mat-icon aria-hidden="false" aria-label="clear" fontIcon="close"></mat-icon>
+    </button>
+  </div>
+  <div class="row-contents">
+    <mat-slider min="-90" max="90" step="0.01" (change)="update('tilt', $event.value)" [(ngModel)]="tilt"></mat-slider>
+  </div>
+</section>

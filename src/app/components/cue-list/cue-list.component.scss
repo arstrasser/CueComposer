@@ -1,0 +1,17 @@
+mat-table {
+  height: 100%;
+  overflow-y: auto;
+}
+
+mat-row.selected {
+  background-color: #eaeaea;
+}
+
+.title-cell {
+  flex: 1 1 calc(100% - 230px)
+}
+
+.time-cell, .fade-cell {
+  flex: 1 1 0;
+}
+

@@ -1,0 +1,25 @@
+<mat-table #cueList [dataSource]="getCues()" class="mat-elevation-z4">
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef class="title-cell"> Title </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="title-cell">
+      <input matInput class="mat-input-element" [(ngModel)]="element.title">
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="time">
+    <mat-header-cell *matHeaderCellDef class="time-cell"> Start </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="time-cell">
+      <input matInput class="mat-input-element" [value]="formatTime(element.time)" (change)="updateStart(element, $event)">
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="fade">
+    <mat-header-cell *matHeaderCellDef class="fade-cell"> Fade </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="fade-cell">
+      <input matInput class="mat-input-element" [value]="formatTime(element.fade)" (change)="updateFade(element, $event)">
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)" [ngClass]="cueIsSelected(row)?'selected':''"></mat-row>
+</mat-table>
