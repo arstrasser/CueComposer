@@ -86,14 +86,14 @@ export class SceneRenderComponent {
 
   ngOnInit() {
     this.loadModels()
-    this.loadRig('/assets/rigs/ds')
+    this.loadRig('assets/rigs/ds')
     this.loadLights()
   }
 
   async loadModels() {
     const loader = new GLTFLoader();
     let data = await Promise.all([
-      loader.loadAsync('/assets/dancer2.glb')
+      loader.loadAsync('assets/dancer2.glb')
     ])
 
     data[0].scene.position.set(0, 11, 0.75)

@@ -53,7 +53,7 @@ class PatchService {
   //--------------------------Light Properties---------------------------------
 
   async loadLights() {
-    let result = await fetch('/assets/rigs/ds/data.txt')
+    let result = await fetch('assets/rigs/ds/data.txt')
     let tsv = await result.text()
     let lightData = await parser.parse(tsv)
 
