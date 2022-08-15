@@ -53,3 +53,14 @@ export const unserializeJson = (json: string):any => {
     return value
   })
 }
+
+export const formatTime = (time: number) => {
+  let minutes = Math.floor(time / 60)
+  let seconds = time - minutes * 60
+  seconds = Math.round(seconds * 100) / 100
+  if (seconds % 1 === 0) {
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ".00"
+  } else {
+    return minutes + ":" + ((seconds < 10 ? "0" : "") + seconds).padEnd(5, "0")
+  }
+}

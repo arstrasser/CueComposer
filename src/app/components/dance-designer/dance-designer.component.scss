@@ -21,6 +21,13 @@ mat-drawer {
   min-width: 200px;
 }
 
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
 .logo {
   height: 60%;
   margin-right: 10px;
@@ -29,7 +36,6 @@ mat-drawer {
 .toolbar-spacer {
   flex: 1 1 auto;
 }
-
 
 .open-show-overlay {
   position: absolute;

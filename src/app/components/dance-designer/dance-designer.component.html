@@ -47,8 +47,10 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <scene-render style="width: 100%; aspect-ratio: 2"></scene-render>
-    <app-timeline></app-timeline>
+    <div class="main-content">
+      <scene-render style="width: 100%; aspect-ratio: 2; flex-grow: 1"></scene-render>
+      <app-timeline></app-timeline>
+    </div>
   </mat-drawer-content>
 
   <mat-drawer mode="side" opened position="end" disableClose>

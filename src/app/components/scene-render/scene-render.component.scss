@@ -1,4 +1,13 @@
 canvas {
-  width: 100%  !important;
-  height: 100% !important;
+  width: 100% !important;
+  height: unset !important;
+  aspect-ratio: 2;
+}
+
+.canvas-container {
+  height: 100%;
+  width: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
 }

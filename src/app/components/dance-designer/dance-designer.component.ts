@@ -24,7 +24,7 @@ export class DanceDesignerComponent implements OnInit {
 
   constructor(public actions: ActionsService, public dialog: MatDialog, private ngZone: NgZone) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     document.addEventListener("keydown", (ev) => {
       if (!ev.repeat) {
         if ((ev.key === "z" && ev.ctrlKey) || ev.key === "\u001a") {
@@ -52,19 +52,30 @@ export class DanceDesignerComponent implements OnInit {
         }
       }
     })
-
-    this.openShow()
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     this.listResizable.nativeElement.style.height = preferences.cueListHeight
     this.infoResizable.nativeElement.style.width = preferences.cueWindowWidth
+
+    if (!isNaN(preferences.lastShowId)) {
+      let show = await db.loadShow(preferences.lastShowId)
+      if (show !== null) {
+        this.loadShow(show)
+      } else {
+        this.openSidenavIfNecessary()
+      }
+    } else {
+      this.openSidenavIfNecessary()
+    }
   }
 
   loadShow(show: Show) {
     this.show = show
     this.actions.performAction(new CueLoadAction(show.cues))
     this.actions.performAction(new AudioLoadAction(show.song))
+    preferences.lastShowId = show.id
+    preferences.save()
   }
 
   save() {
