@@ -105,6 +105,7 @@ export interface BetterLightData {
   rotation: { x: number, y: number, z: number, pan: number, tilt: number },
   address: string,
   has_color: boolean,
+  has_strobe: boolean,
   has_moving: boolean,
   angle: number,
   intensity: number
@@ -117,6 +118,7 @@ class MaTsvParserService {
   parse(tsv: string): BetterLightData[] {
     let lightData = parse(tsv, {delimiter: '\t', header: true, skipEmptyLines: true}).data as LightData[]
     return lightData.map(x => {
+      console.log(x)
       return {
         type: x['Instrument Type'],
         channel: parseInt(x['Channel']),
@@ -134,6 +136,7 @@ class MaTsvParserService {
         },
         address: x['DMX Address'],
         has_color: parseInt(x['DMX Footprint']) > 1,
+        has_strobe: x["Instrument Type"].includes("Stormy"),
         has_moving: x['Device Type'] === 'Moving Light',
         angle: MathUtils.degToRad(parseFloat(x['Field Angle'])),
         intensity: this.getLightTypeIntensity(x['Instrument Type'])
@@ -145,6 +148,7 @@ class MaTsvParserService {
     if (type.includes("Colorforce II")) {
       return 50
     }
+    console.log(type)
     return 0.3
   }
 
