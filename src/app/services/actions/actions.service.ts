@@ -3,6 +3,7 @@ import { patch } from '../patch';
 import { cues } from '../cues'
 import { Channel, LightValue, LightValueKey } from '../types/LightValue';
 import { Cue } from '../types/show';
+import { preferences, RenderQuality } from '../preferences';
 
 export abstract class Action {
   public rerender: boolean = false
@@ -76,11 +77,24 @@ export class CueSelectAction extends Action {
   public fadeEmitter: EventEmitter<number> | undefined = undefined
 
   private timer: NodeJS.Timer | undefined = undefined
-  private fadeTriggerPeriodMilliseconds = 100
+  private fadeTriggerPeriodMilliseconds
+  private lastT = -1
 
   constructor(public cueId: number | null, public fade = false, public getT: (() => number) | undefined = undefined) {
     super()
     this.rerender = !this.fade
+
+    switch(preferences.renderQuality) {
+      case RenderQuality.low:
+        this.fadeTriggerPeriodMilliseconds = 200
+        break
+      case RenderQuality.medium:
+        this.fadeTriggerPeriodMilliseconds = 100
+        break
+      case RenderQuality.high:
+        this.fadeTriggerPeriodMilliseconds = 50
+        break
+    }
   }
 
   do() {
@@ -93,7 +107,8 @@ export class CueSelectAction extends Action {
       this.timer = setInterval(() => {
         if (this.getT === undefined) throw "Fade action requires a getT function"
         let t = this.getT()
-        this.fadeEmitter?.emit(t)
+        if (t != this.lastT) this.fadeEmitter?.emit(t)
+        this.lastT = t
         if (t >= 1 || t < 0) {
           this.finishFade()
         }

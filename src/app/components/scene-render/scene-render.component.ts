@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActionsService, CueLoadAction, CueSelectAction, LightValueSetAction } from 'src/app/services/actions/actions.service';
+import { ActionsService, CueLoadAction, CueSelectAction, LightSelectAction, LightValueSetAction } from 'src/app/services/actions/actions.service';
 import { LightValueStoreMode, patch } from 'src/app/services/patch';
+import { preferences, RenderQuality } from 'src/app/services/preferences';
 import * as THREE from 'three';
 import { MathUtils } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -23,7 +24,8 @@ export class SceneRenderComponent {
   private isRendering: boolean = false
   private renderQueued: boolean = false
 
-  private lightDatabase = new Map<Number, THREE.Light>();
+  private lightDatabase = new Map<number, THREE.Light>();
+  private indicatorDatabase = new Map<number, THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>>();
 
   constructor(private actions: ActionsService) {
     this.scene = new THREE.Scene();
@@ -47,6 +49,8 @@ export class SceneRenderComponent {
         patch.getSelectedLights().forEach(channel => {
           this.updateLight(channel, patch.getLightValue(channel))
         })
+      } else if (action instanceof LightSelectAction) {
+        this.updateIndicators(patch.getSelectedLights())
       } else if (action instanceof CueLoadAction) {
         patch.getAllLights().forEach(channel => {
           this.updateLight(channel, patch.getLightValue(channel))
@@ -98,6 +102,7 @@ export class SceneRenderComponent {
 
     data[0].scene.position.set(0, 11, 0.75)
     data[0].scene.rotateX(MathUtils.degToRad(90))
+
     // data[1].scene.traverse(child => {
     //   child.castShadow = true
     //   child.receiveShadow = true
@@ -116,6 +121,20 @@ export class SceneRenderComponent {
 
     data.scene.scale.set(millimetersToMeters, millimetersToMeters, millimetersToMeters)
     data.scene.up.set(0, 0, -1)
+    data.scene.traverse(child => {
+      // if (child instanceof THREE.Mesh) {
+      //   console.log("MESH")
+      //   child.material = new THREE.MeshStandardMaterial({
+      //     color: child.material.color,
+      //     map: child.material.map
+      //   })
+
+      //   child.material.opacity = 1.0
+      //   child.material.transparent = true
+      // } else {
+      //   console.log(child)
+      // }
+    })
 
     if (this.rig !== undefined) {
       this.scene.remove(this.rig)
@@ -156,14 +175,16 @@ export class SceneRenderComponent {
         this.lightDatabase.set(myLight.channel, light)
       }
 
-      // const geometry = new THREE.ConeGeometry( 0.1, 0.7 );
-      // const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-      // const cone = new THREE.Mesh( geometry, material );
-      // cone.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2)
-      // cone.rotateOnAxis(new THREE.Vector3(0, 0, 1), myLight.rotation.tilt)
-      // cone.rotateOnAxis(new THREE.Vector3(0, 0, 0), myLight.rotation.pan)
+      const geometry = new THREE.SphereGeometry(0.2);
+      const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+      material.depthTest = false
+      material.transparent = true
+      material.opacity = 0
+      const sphere = new THREE.Mesh( geometry, material );
+      sphere.renderOrder = 1
+      this.indicatorDatabase.set(myLight.channel, sphere)
 
-      // group.add(cone)
+      group.add(sphere)
 
       this.scene.add(group)
     })
@@ -177,7 +198,17 @@ export class SceneRenderComponent {
       antialias: true,
     })
     // renderer.shadowMap.enabled = true
-    renderer.setSize(800, 400)
+
+    let height = 200
+    if (preferences.renderQuality === RenderQuality.low) {
+      height = 100
+    } else if (preferences.renderQuality === RenderQuality.medium) {
+      height = 200
+    } else if (preferences.renderQuality === RenderQuality.high) {
+      height = 400
+    }
+
+    renderer.setSize(height*2, height)
 
     this.renderer = renderer
 
@@ -201,6 +232,19 @@ export class SceneRenderComponent {
         light2.target.position.set(target.x, target.y, target.z)
       }
     }
+  }
+
+  updateIndicators(selection: number[]) {
+    this.indicatorDatabase.forEach((indicator, channel) => {
+      if (selection.includes(channel)) {
+        indicator.material.opacity = 1.0
+        indicator.material.needsUpdate = true
+      } else {
+        indicator.material.opacity = 0.0
+        indicator.material.needsUpdate = true
+      }
+    })
+    this.render()
   }
 
   render() {

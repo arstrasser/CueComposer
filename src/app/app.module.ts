@@ -19,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 import { ResizableModule } from 'angular-resizable-element';
 import { ColorTwitterModule } from 'ngx-color/twitter';
@@ -31,6 +32,7 @@ import { CueListComponent } from './components/cue-list/cue-list.component';
 import { LightingControlsComponent } from './components/lighting-controls/lighting-controls.component';
 import { FileNewComponent } from './components/file-new/file-new.component';
 import { FileOpenComponent } from './components/file-open/file-open.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { FileOpenComponent } from './components/file-open/file-open.component';
     CueListComponent,
     LightingControlsComponent,
     FileNewComponent,
-    FileOpenComponent
+    FileOpenComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ import { FileOpenComponent } from './components/file-open/file-open.component';
     MatInputModule,
     MatTableModule,
     MatDialogModule,
+    MatSelectModule,
     ResizableModule,
     ColorTwitterModule
   ],

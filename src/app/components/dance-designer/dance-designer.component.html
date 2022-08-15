@@ -18,6 +18,10 @@
   <button mat-icon-button (click)="actions.redo()" [disabled]="!actions.canRedo()">
     <mat-icon>redo</mat-icon>
   </button>
+
+  <button mat-icon-button (click)="openSettings()">
+    <mat-icon>settings</mat-icon>
+  </button>
 </mat-toolbar>
 <mat-drawer-container class="main-container">
   <mat-drawer #sidenav mode="over" position="start" class="file-drawer" [disableClose]="show === null">

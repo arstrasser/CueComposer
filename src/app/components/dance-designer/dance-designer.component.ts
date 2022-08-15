@@ -9,6 +9,7 @@ import { db } from '../../services/db';
 import { preferences } from '../../services/preferences';
 import { Show } from '../../services/types/show';
 import { MatDrawer } from '@angular/material/sidenav';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-dance-designer',
@@ -154,6 +155,10 @@ export class DanceDesignerComponent implements OnInit {
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
+  }
+
+  openSettings() {
+    this.dialog.open(SettingsComponent)
   }
 
   onListResizeEnd(event: ResizeEvent) {

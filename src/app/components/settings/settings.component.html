@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Settings</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Render Quality (requires reload)</mat-label>
+    <mat-select [(value)]="quality">
+      <mat-option [value]="0">Low</mat-option>
+      <mat-option [value]="1">Medium</mat-option>
+      <mat-option [value]="2">High</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="close()">Close</button>
+</div>
