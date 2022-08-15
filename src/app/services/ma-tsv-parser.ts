@@ -118,7 +118,6 @@ class MaTsvParserService {
   parse(tsv: string): BetterLightData[] {
     let lightData = parse(tsv, {delimiter: '\t', header: true, skipEmptyLines: true}).data as LightData[]
     return lightData.map(x => {
-      console.log(x)
       return {
         type: x['Instrument Type'],
         channel: parseInt(x['Channel']),
@@ -146,10 +145,11 @@ class MaTsvParserService {
 
   getLightTypeIntensity(type:string) {
     if (type.includes("Colorforce II")) {
-      return 50
+      return 100
+    } else if (type.includes("Source 4") && !type.includes("LED")) {
+      return 0.1
     }
-    console.log(type)
-    return 0.3
+    return 0.4
   }
 
   feetToMeters(feetStr: string): number {
