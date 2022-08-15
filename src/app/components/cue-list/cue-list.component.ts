@@ -23,7 +23,7 @@ export class CueListComponent implements OnInit {
 
   ngOnInit(): void {
     this.actions.eventEmitter.subscribe(action => {
-      if (action instanceof CueAddAction || action instanceof CueDeleteAction || action instanceof CueLoadAction) {
+      if (action instanceof CueAddAction || action instanceof CueDeleteAction || action instanceof CueLoadAction || action instanceof CueUpdateAction) {
         this.cueTable.renderRows()
       }
     })

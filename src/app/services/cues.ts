@@ -63,6 +63,7 @@ export class CuesService {
     this.cues[index].time = time
     this.cues[index].title = title
     this.cues[index].fade = fade
+    this.cues.sort((a, b) => a.time - b.time)
     return this.cues[index]
   }
 

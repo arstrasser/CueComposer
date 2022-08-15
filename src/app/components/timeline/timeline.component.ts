@@ -87,15 +87,16 @@ export class TimelineComponent {
   private selectPreviousCue() {
     let i = 0;
     let currentTime = this.wavesurfer!.getCurrentTime()
+    let oldSelection = cues.getSelectedCue()
     for (;i < cues.cues.length; i++) {
       if (cues.cues[i].time > currentTime) {
         break
       }
     }
     if (i === 0) {
-      this.actions.performAction(new CueSelectAction(null))
+      if (oldSelection !== null) this.actions.performAction(new CueSelectAction(null))
     } else {
-      this.actions.performAction(new CueSelectAction(cues.cues[i-1].id))
+      if (oldSelection?.id !== cues.cues[i-1].id) this.actions.performAction(new CueSelectAction(cues.cues[i-1].id))
     }
   }
 
