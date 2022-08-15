@@ -1,5 +1,6 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ActionsService, AudioLoadAction, CueAddAction, CueDeleteAction, CueLoadAction, CueSelectAction, CueUpdateAction } from 'src/app/services/actions/actions.service';
+import { formatTime } from 'src/app/services/helper';
 import { Cue } from 'src/app/services/types/show';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
@@ -18,8 +19,8 @@ export class TimelineComponent {
   private baseZoom: number = 1
   private zoomFactor:number = 1
 
-  public currentTime: string = "0:00"
-  public currentDuration: string = "0:00"
+  public currentTime: string = "0:00.00"
+  public currentDuration: string = "0:00.00"
 
   constructor(private actions: ActionsService, private ngZone: NgZone) { }
 
@@ -29,6 +30,7 @@ export class TimelineComponent {
       scrollParent: true,
       waveColor: "#B71C1C",
       autoCenterImmediately: true,
+      height: 140,
       plugins: [
         RegionsPlugin.create({
           dragSelection: false
@@ -52,17 +54,7 @@ export class TimelineComponent {
     })
 
     this.wavesurfer?.on("play", () => {
-      let i = 0;
-      for (;i < cues.cues.length; i++) {
-        if (cues.cues[i].time >= this.wavesurfer!.getCurrentTime()) {
-          break
-        }
-      }
-      if (i === 0) {
-        this.actions.performAction(new CueSelectAction(null))
-      } else {
-        this.actions.performAction(new CueSelectAction(cues.cues[i-1].id))
-      }
+      this.selectPreviousCue()
     })
 
     this.wavesurfer?.on("audioprocess", () => {
@@ -75,7 +67,10 @@ export class TimelineComponent {
 
     this.wavesurfer?.on("seek", () => {
       this.ngZone.run(() => {
-        this.currentTime = this.formatTime(this.wavesurfer?.getCurrentTime() || 0)
+        let currentTime = this.wavesurfer?.getCurrentTime() || 0
+        this.currentTime = this.formatTime(currentTime)
+
+        this.selectPreviousCue()
       })
     })
 
@@ -87,6 +82,25 @@ export class TimelineComponent {
         this.zoomFactor = 1
       }
     })
+  }
+
+  private selectPreviousCue() {
+    let i = 0;
+    let currentTime = this.wavesurfer!.getCurrentTime()
+    for (;i < cues.cues.length; i++) {
+      if (cues.cues[i].time > currentTime) {
+        break
+      }
+    }
+    if (i === 0) {
+      this.actions.performAction(new CueSelectAction(null))
+    } else {
+      this.actions.performAction(new CueSelectAction(cues.cues[i-1].id))
+    }
+  }
+
+  private getRegionDuration() {
+    return Math.max(3 / (this.zoomFactor * this.baseZoom), 0.1)
   }
 
   ngOnDestroy() {
@@ -121,17 +135,7 @@ export class TimelineComponent {
     this.wavesurfer?.pause()
   }
 
-  formatTime(time: number, displayMilliseconds: boolean = false) {
-    let minutes = Math.floor(time / 60)
-    let seconds = Math.floor(time % 60)
-    let milliseconds = Math.floor((seconds - Math.floor(seconds)) * 100)
-
-    if (displayMilliseconds) {
-      return `${minutes}:${seconds<10?"0":""}${seconds}.${milliseconds}`
-    } else {
-      return `${minutes}:${seconds<10?"0":""}${seconds}`
-    }
-  }
+  formatTime = formatTime
 
   isPlaying() {
     return this.wavesurfer?.isPlaying() || false
@@ -145,7 +149,7 @@ export class TimelineComponent {
   renderRegions() {
     console.log("renderregions")
     this.wavesurfer?.regions.clear()
-    let regionDuration = Math.max(3 / (this.zoomFactor * this.baseZoom), 0.1)
+    let regionDuration = this.getRegionDuration()
 
     cues.cues.forEach(cue => {
       let region = this.wavesurfer?.regions.add({
@@ -162,12 +166,6 @@ export class TimelineComponent {
         region.on('update-end', () => {
           if (region !== undefined) {
             this.actions.performAction(new CueUpdateAction(parseInt(region.id), region.start))
-            this.actions.performAction(new CueSelectAction(parseInt(region.id)))
-          }
-        })
-
-        region.on("click", (ev:MouseEvent) => {
-          if (region !== undefined) {
             this.actions.performAction(new CueSelectAction(parseInt(region.id)))
           }
         })

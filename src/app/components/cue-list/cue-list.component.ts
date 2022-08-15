@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { ActionsService, CueAddAction, CueDeleteAction, CueLoadAction, CueSelectAction, CueUpdateAction } from 'src/app/services/actions/actions.service';
+import { formatTime } from 'src/app/services/helper';
 import { cues } from '../../services/cues';
 import { Cue } from '../../services/types/show';
 
@@ -26,17 +27,6 @@ export class CueListComponent implements OnInit {
         this.cueTable.renderRows()
       }
     })
-  }
-
-  formatTime(time: number) {
-    let minutes = Math.floor(time / 60)
-    let seconds = time - minutes * 60
-    seconds = Math.round(seconds * 100) / 100
-    if (seconds % 1 === 0) {
-      return minutes + ":" + (seconds < 10 ? "0" : "") + seconds + ".00"
-    } else {
-      return minutes + ":" + ((seconds < 10 ? "0" : "") + seconds).padEnd(5, "0")
-    }
   }
 
   rowClick(row:Cue) {
@@ -75,7 +65,7 @@ export class CueListComponent implements OnInit {
       cue.time = newValue
       this.actions.performAction(new CueUpdateAction(cue.id, newValue, cue.title, cue.fade))
     } else {
-      target.value = this.formatTime(cue.time)
+      target.value = formatTime(cue.time)
     }
   }
 
@@ -89,6 +79,8 @@ export class CueListComponent implements OnInit {
     }
   }
 
+  formatTime = formatTime
+
   updateFade(cue: Cue, e:Event) {
     let target = e.target as HTMLInputElement
     let value = target.value
@@ -98,7 +90,7 @@ export class CueListComponent implements OnInit {
       cue.fade = newValue
       this.actions.performAction(new CueUpdateAction(cue.id, cue.time, cue.title, newValue))
     } else {
-      target.value = this.formatTime(cue.fade)
+      target.value = formatTime(cue.fade)
     }
   }
 

@@ -13,6 +13,10 @@
   justify-content: space-around;
 }
 
+.timeline-time {
+  padding: 0 5px;
+}
+
 .timeline-wave {
   flex: 1 1 auto;
 }
@@ -22,4 +26,8 @@
   top: 0;
   bottom: 0;
   display: none;
+}
+
+.timeline-wave > wave {
+  overflow: scroll hidden !important;
 }
