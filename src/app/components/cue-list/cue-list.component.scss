@@ -3,6 +3,10 @@ mat-table {
   overflow-y: auto;
 }
 
+mat-row {
+  background-color: white;
+}
+
 mat-row.selected {
   background-color: #eaeaea;
 }
