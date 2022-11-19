@@ -13,7 +13,7 @@ import { Cue } from '../../services/types/show';
 export class CueListComponent implements OnInit {
   @ViewChild(MatTable) cueTable!: MatTable<Cue>;
 
-  public displayedColumns: string[] = ['title', 'time', 'fade'];
+  public displayedColumns: string[] = ['num', 'title', 'time', 'follow', 'fade'];
 
   constructor(public actions: ActionsService) { }
 

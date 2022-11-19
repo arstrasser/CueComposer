@@ -1,4 +1,11 @@
 <mat-table #cueList [dataSource]="getCues()" class="mat-elevation-z4">
+  <ng-container matColumnDef="num">
+    <mat-header-cell *matHeaderCellDef class="time-cell"> Cue </mat-header-cell>
+    <mat-cell *matCellDef="let element; let i = index;" class="time-cell">
+      <input matInput readonly class="mat-input-element" [value]="i+1">
+    </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef class="title-cell"> Title </mat-header-cell>
     <mat-cell *matCellDef="let element" class="title-cell">
@@ -10,6 +17,13 @@
     <mat-header-cell *matHeaderCellDef class="time-cell"> Start </mat-header-cell>
     <mat-cell *matCellDef="let element" class="time-cell">
       <input matInput class="mat-input-element" [value]="formatTime(element.time)" (change)="updateStart(element, $event)">
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="follow">
+    <mat-header-cell *matHeaderCellDef class="time-cell"> Follow </mat-header-cell>
+    <mat-cell *matCellDef="let element; let i = index;" class="time-cell">
+      <input matInput readonly class="mat-input-element" [value]="i+1 >= getCues().length ? '' : formatTime(getCues()[i+1].time - element.time)">
     </mat-cell>
   </ng-container>
 
