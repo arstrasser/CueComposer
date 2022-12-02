@@ -8,6 +8,12 @@
       <mat-option [value]="2">High</mat-option>
     </mat-select>
   </mat-form-field>
+  <br/>
+  <mat-form-field appearance="fill" floatLabel="always">
+    <mat-label>Autosave</mat-label>
+    <mat-slide-toggle [(ngModel)]="autosave"></mat-slide-toggle>
+    <textarea matInput hidden></textarea>
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="close()">Close</button>

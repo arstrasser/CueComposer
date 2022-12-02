@@ -20,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ResizableModule } from 'angular-resizable-element';
 import { ColorTwitterModule } from 'ngx-color/twitter';
@@ -70,6 +71,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     MatTableModule,
     MatDialogModule,
     MatSelectModule,
+    MatSlideToggleModule,
     ResizableModule,
     ColorTwitterModule
   ],

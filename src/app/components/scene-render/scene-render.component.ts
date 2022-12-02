@@ -193,9 +193,20 @@ export class SceneRenderComponent {
   }
 
   ngAfterViewInit(): void {
+
+    let precision = 'highp'
+    if (preferences.renderQuality === RenderQuality.high) {
+      precision = 'highp'
+    } else if (preferences.renderQuality === RenderQuality.medium) {
+      precision = 'mediump'
+    } else if (preferences.renderQuality === RenderQuality.low) {
+      precision = 'lowp'
+    }
     let renderer = new THREE.WebGLRenderer({
       canvas: this.canvas.nativeElement,
       antialias: true,
+      powerPreference: preferences.renderQuality===RenderQuality.high?'high-performance':'default',
+      precision
     })
     // renderer.shadowMap.enabled = true
 

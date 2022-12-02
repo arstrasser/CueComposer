@@ -10,12 +10,14 @@ class Preferences {
   public cueWindowWidth = localStorage.getItem("preferences.cueWindowWidth") || "600px"
   public lastShowId: number = parseInt(localStorage.getItem("preferences.lastShowId") || "")
   public renderQuality = parseInt(localStorage.getItem("preferences.renderQuality") || "1") as RenderQuality
+  public autoSave: boolean = localStorage.getItem("preferences.autoSave") === "true" || true
 
   save() {
     localStorage.setItem("preferences.cueListHeight", this.cueListHeight)
     localStorage.setItem("preferences.cueWindowWidth", this.cueWindowWidth)
     localStorage.setItem("preferences.lastShowId", this.lastShowId.toString())
     localStorage.setItem("preferences.renderQuality", this.renderQuality.toString())
+    localStorage.setItem("preferences.autoSave", this.autoSave.toString())
   }
 
 }

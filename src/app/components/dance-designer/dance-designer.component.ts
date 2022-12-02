@@ -22,6 +22,7 @@ export class DanceDesignerComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatDrawer;
 
   public show: Show | null = null
+  public autosave:NodeJS.Timer | null = null
 
   constructor(public actions: ActionsService, public dialog: MatDialog, private ngZone: NgZone) {}
 
@@ -53,6 +54,13 @@ export class DanceDesignerComponent implements OnInit {
         }
       }
     })
+
+    //Autosave every 30 seconds
+    this.autosave = setInterval(() => {
+      if (preferences.autoSave) {
+        this.save()
+      }
+    }, 30000)
   }
 
   async ngAfterViewInit() {
@@ -68,6 +76,12 @@ export class DanceDesignerComponent implements OnInit {
       }
     } else {
       this.openSidenavIfNecessary()
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.autosave !== null) {
+      clearInterval(this.autosave)
     }
   }
 

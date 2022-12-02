@@ -10,12 +10,15 @@ import { preferences, RenderQuality } from 'src/app/services/preferences';
 export class SettingsComponent {
 
   quality: RenderQuality
+  autosave: boolean
   constructor(public dialogRef: MatDialogRef<SettingsComponent>) {
     this.quality = preferences.renderQuality
+    this.autosave = preferences.autoSave
   }
 
   close() {
     preferences.renderQuality = this.quality
+    preferences.autoSave = this.autosave
     preferences.save()
     this.dialogRef.close()
   }
