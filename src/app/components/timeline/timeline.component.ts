@@ -1,6 +1,7 @@
 import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ActionsService, AudioLoadAction, CueAddAction, CueDeleteAction, CueLoadAction, CueSelectAction, CueUpdateAction } from 'src/app/services/actions/actions.service';
 import { formatTime } from 'src/app/services/helper';
+import { preferences } from 'src/app/services/preferences';
 import { Cue } from 'src/app/services/types/show';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
@@ -37,6 +38,8 @@ export class TimelineComponent {
         })
       ]
     })
+
+    this.updateVolume()
 
     this.addListeners()
   }
@@ -82,6 +85,14 @@ export class TimelineComponent {
         this.zoomFactor = 1
       }
     })
+
+    preferences.volumeEmitter.subscribe(() => {
+      this.updateVolume()
+    })
+  }
+
+  private updateVolume() {
+    this.wavesurfer?.setVolume(preferences.volume)
   }
 
   private selectPreviousCue() {

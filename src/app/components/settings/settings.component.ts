@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { preferences, RenderQuality } from 'src/app/services/preferences';
+import { MatSliderChange } from '@angular/material/slider';
+import { Preferences, preferences } from 'src/app/services/preferences';
 
 @Component({
   selector: 'app-settings',
@@ -9,17 +10,19 @@ import { preferences, RenderQuality } from 'src/app/services/preferences';
 })
 export class SettingsComponent {
 
-  quality: RenderQuality
-  autosave: boolean
+  public preferences: Preferences
   constructor(public dialogRef: MatDialogRef<SettingsComponent>) {
-    this.quality = preferences.renderQuality
-    this.autosave = preferences.autoSave
+    this.preferences = preferences
+  }
+
+  volumeChange(ev:MatSliderChange) {
+    let value = ev.value as number
+    this.preferences.volume = value
+    this.preferences.volumeEmitter.emit()
   }
 
   close() {
-    preferences.renderQuality = this.quality
-    preferences.autoSave = this.autosave
-    preferences.save()
+    this.preferences.save()
     this.dialogRef.close()
   }
 

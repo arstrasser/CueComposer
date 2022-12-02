@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Render Quality (requires reload)</mat-label>
-    <mat-select [(value)]="quality">
+    <mat-select [(value)]="preferences.renderQuality">
       <mat-option [value]="0">Low</mat-option>
       <mat-option [value]="1">Medium</mat-option>
       <mat-option [value]="2">High</mat-option>
@@ -11,7 +11,13 @@
   <br/>
   <mat-form-field appearance="fill" floatLabel="always">
     <mat-label>Autosave</mat-label>
-    <mat-slide-toggle [(ngModel)]="autosave"></mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="preferences.autoSave"></mat-slide-toggle>
+    <textarea matInput hidden></textarea>
+  </mat-form-field>
+  <br/>
+  <mat-form-field appearance="fill" floatLabel="always">
+    <mat-label>Volume</mat-label>
+    <mat-slider [(ngModel)]="preferences.volume" min="0" max="1" step="0.01" (input)="volumeChange($event)"></mat-slider>
     <textarea matInput hidden></textarea>
   </mat-form-field>
 </div>
