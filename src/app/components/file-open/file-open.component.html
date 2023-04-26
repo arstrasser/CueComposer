@@ -14,6 +14,18 @@
         {{formatDate(element.modifyDate)}}
       </mat-cell>
     </ng-container>
+    
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="exportShow(element.id)">
+          <mat-icon>save_alt</mat-icon>
+        </button>
+        <button mat-icon-button (click)="removeShow(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectShow(row.id)" [ngClass]="selectedShowId === row.id?'selected':''"></mat-row>

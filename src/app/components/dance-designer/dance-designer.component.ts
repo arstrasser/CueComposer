@@ -10,6 +10,7 @@ import { preferences } from '../../services/preferences';
 import { Show } from '../../services/types/show';
 import { MatDrawer } from '@angular/material/sidenav';
 import { SettingsComponent } from '../settings/settings.component';
+import { FileExportComponent } from '../file-export/file-export.component';
 
 @Component({
   selector: 'app-dance-designer',
@@ -118,7 +119,9 @@ export class DanceDesignerComponent implements OnInit {
   }
 
   openShow() {
-    const dialogRef = this.dialog.open(FileOpenComponent)
+    const dialogRef = this.dialog.open(FileOpenComponent, {
+      width: '800px'
+    })
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
@@ -160,15 +163,16 @@ export class DanceDesignerComponent implements OnInit {
       this.openSidenavIfNecessary()
       return
     }
-    const showData = await db.exportShow(this.show.id)
-    let blob = new Blob([JSON.stringify(showData)], { type: "text/plain;charset=utf-8" })
-    let link = window.URL.createObjectURL(blob)
-    let a = document.createElement("a")
-    a.download = this.show.name+".cuecomposer"
-    a.href = link
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+
+    const dialogRef = this.dialog.open(FileExportComponent, {
+      data: {
+        id: this.show.id,
+        name: this.show.name
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+    })
   }
 
   openSettings() {

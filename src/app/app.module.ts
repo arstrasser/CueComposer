@@ -34,6 +34,7 @@ import { LightingControlsComponent } from './components/lighting-controls/lighti
 import { FileNewComponent } from './components/file-new/file-new.component';
 import { FileOpenComponent } from './components/file-open/file-open.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { FileExportComponent } from './components/file-export/file-export.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     FileNewComponent,
     FileOpenComponent,
     SettingsComponent,
+    FileExportComponent,
   ],
   imports: [
     BrowserModule,

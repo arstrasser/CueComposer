@@ -11,6 +11,10 @@ mat-row.selected {
   background-color: #eaeaea;
 }
 
+mat-cell input {
+  width: 100%;
+}
+
 .title-cell {
   flex: 1 1 calc(100% - 375px)
 }

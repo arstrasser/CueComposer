@@ -131,13 +131,14 @@ export class AppDB extends Dexie {
     return (await fetch(base64)).blob()
   }
 
-  async exportShow(showId: number): Promise<showExportFormat | null> {
+  async getShowExportInfo(showId: number): Promise<showExportFormat | null> {
+    console.log(showId)
     let show = await this.shows.get(showId)
     let cues = await this.cues.where("showId").equals(showId)
     let lightValues = await this.lightValues.where("cueId").anyOf(await cues.primaryKeys())
     if (!show || !cues || !lightValues) return null
     const song = await this.blobToBase64(show.song)
-
+    
     return {
       show: {
         name: show.name,
@@ -146,6 +147,31 @@ export class AppDB extends Dexie {
       cues: await cues.toArray(),
       lightValues: await lightValues.toArray()
     }
+  }
+
+  async exportShow(showId: number) {
+    const showData = await this.getShowExportInfo(showId)
+    if (!showData) return
+
+    const blob = new Blob([JSON.stringify(showData)], { type: "text/plain;charset=utf-8" })
+    this.downloadFile(blob, showData.show.name+".cuecomposer")
+  }
+
+  async exportCues(showId: number) {
+    const showData = await this.getShowExportInfo(showId)
+    if (!showData) return
+
+    const blob = new Blob(["Cue,Title,Start,Fade\n" + showData.cues.map((x, index) => `${index+1},${x.title},${x.time.toFixed(2)},${x.fade.toFixed(2)}`).join("\n")], { type: "text/csv;charset=utf-8" })
+    this.downloadFile(blob, showData.show.name+".cues.csv")
+  }
+
+  downloadFile(blob: Blob, name: string) {
+    let a = document.createElement("a")
+    a.href = window.URL.createObjectURL(blob)
+    a.download = name
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   }
 
   async importShow(data: showExportFormat) {

@@ -19,6 +19,8 @@ export class LightingControlsComponent implements OnInit {
   public pan: number | LightOptional = LightOptional.UNSET
   public tilt: number | LightOptional = LightOptional.UNSET
 
+  public availableColors = ['#FF0000', '#FF6900', '#ebc034', '#fafa41', '#27ba20', '#23faf3', '#2dace3', '#071de6', '#7e15e8', '#be15e8', '#e615df', '#ffffff']
+
   constructor(public actions: ActionsService) {
     this.actions.eventEmitter.subscribe(action => {
       if (action instanceof CueSelectAction || action instanceof LightValueSetAction || action instanceof LightSelectAction || action instanceof CueLoadAction) {

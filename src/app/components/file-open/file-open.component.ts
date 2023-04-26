@@ -12,7 +12,7 @@ export class FileOpenComponent implements OnInit {
   selectedShowId: number | null = null
   shows: {id: number, name: string, modifyDate: number;}[] = []
 
-  displayedColumns: string[] = ['name', 'modifyDate']
+  displayedColumns: string[] = ['name', 'modifyDate', "actions"]
 
   constructor(public dialogRef: MatDialogRef<FileOpenComponent>) {}
 
@@ -42,14 +42,24 @@ export class FileOpenComponent implements OnInit {
 
   remove() {
     if (this.selectedShowId !== null) {
-      db.deleteShow(this.selectedShowId)
-      this.shows = this.shows.filter(show => show.id !== this.selectedShowId)
+      this.removeShow(this.selectedShowId)
+    }
+  }
+
+  removeShow(showId: number) {
+    db.deleteShow(showId)
+    this.shows = this.shows.filter(show => show.id !== showId)
+    if (this.selectedShowId !== null && this.selectedShowId === showId) {
       this.selectedShowId = null
     }
   }
 
   open() {
     this.dialogRef.close(this.selectedShowId)
+  }
+
+  exportShow(showId:number) {
+    db.exportShow(showId)
   }
 
 }
