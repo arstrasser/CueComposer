@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "serve": "ng serve",
-    "deploy": "ng deploy"
+    "deploy": "ng deploy --cname=cc.astrasser.com"
   },
   "private": true,
   "dependencies": {

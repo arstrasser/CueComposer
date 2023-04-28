@@ -42,24 +42,29 @@ export class LightSelectAction extends Action {
   public oldGroup: Channel[] | undefined = undefined
   public newGroup: Channel[] | undefined = undefined
 
-  constructor(public channels: Channel[], public deselect: boolean = false) {
+  constructor(public channels: Channel[], public deselect: boolean = false, public deselctOthers: boolean = false) {
     super()
   }
 
   do() {
     if (this.oldGroup === undefined) {
-      this.oldGroup = patch.getSelectedLights()
+      this.oldGroup = [...patch.getSelectedLights()]
     }
 
     if (this.newGroup === undefined) {
+      if (this.deselctOthers) {
+        patch.clearSelection()
+      }
+      
       if (this.deselect) {
         patch.deselectLights(this.channels)
       } else {
         patch.selectLights(this.channels)
       }
 
-      this.newGroup = patch.getSelectedLights()
+      this.newGroup = [...patch.getSelectedLights()]
     } else {
+      patch.clearSelection()
       patch.setSelectedLights(this.newGroup)
     }
   }

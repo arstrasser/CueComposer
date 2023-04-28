@@ -12,6 +12,7 @@ import { patch } from 'src/app/services/patch';
 })
 export class LightingControlsComponent implements OnInit {
 
+  public selectingGroups = false
   public groups: LightGroup[] = patch.getGroups()
 
   public brightness: number | LightOptional = LightOptional.UNSET
@@ -42,6 +43,12 @@ export class LightingControlsComponent implements OnInit {
   }
 
   toggleGroupSelect(group: LightGroup) {
+    if (!this.selectingGroups) {
+      this.actions.performAction(new LightSelectAction(group.channels, false, true))
+      this.selectingGroups = true
+      return
+    }
+
     if (patch.groupIsSelected(group)) {
       this.actions.performAction(new LightSelectAction(group.channels, true))
     } else {
@@ -56,6 +63,7 @@ export class LightingControlsComponent implements OnInit {
     if (value === null) return
     this[name] = value
     this.actions.performAction(new LightValueSetAction(name, value))
+    this.selectingGroups = false
   }
 
   colorChange(event: ColorEvent) {
